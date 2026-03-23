@@ -1,97 +1,99 @@
-import { useState } from "react"
-import "./SafeCoach.css"
+import { useState } from "react";
+import "./SafeCoach.css";
 
 export default function SafeCoach(){
 
-const [text,setText] = useState("")
-const [language,setLanguage] = useState("English")
-const [behaviour,setBehaviour] = useState("")
-const [suggestion,setSuggestion] = useState("")
+  const [text,setText] = useState("");
+  const [language,setLanguage] = useState("English");
+  const [behaviour,setBehaviour] = useState("");
+  const [suggestion,setSuggestion] = useState("");
 
-const analyzeCoach = async () => {
+  const analyzeCoach = async () => {
 
-if(!text.trim()) return
+    if(!text.trim()) return;
 
-try{
+    try{
 
-const response = await fetch("https://my-backend-h18l.onrender.com/safe-coach", {
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-text:text
-})
-})
+      const response = await fetch("https://my-backend-h18l.onrender.com/safe-coach", {
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          text:text,
+          language:language   // 🔥 IMPORTANT ADD
+        })
+      });
 
-if(!response.ok){
-throw new Error("Server error")
-}
+      if(!response.ok){
+        throw new Error("Server error");
+      }
 
-const data = await response.json()
+      const data = await response.json();
 
-setBehaviour(data.behaviour || "")
-setSuggestion(data.suggestion || "")
+      console.log("Coach API:", data);
 
-}
+      setBehaviour(data.behaviour || "No behaviour");
+      setSuggestion(data.suggestion || "No suggestion");
 
-catch(error){
-console.error("Error:",error)
-alert("Backend connection failed")
-}
+    }
+    catch(error){
+      console.error("Error:",error);
+      setBehaviour("⚠ Server Error");
+      setSuggestion("");
+    }
 
-}
+  };
 
-return(
+  return(
 
-<div className="coach-page">
+    <div className="coach-page">
 
-<div className="coach-card">
+      <div className="coach-card">
 
-<h1>Safe Command Coach</h1>
+        <h1>Safe Command Coach</h1>
 
-<p>Identify behaviour and suggest better communication</p>
+        <p>Identify behaviour and suggest better communication</p>
 
-<div className="lang-tabs">
+        <div className="lang-tabs">
 
-{["English","Hindi","Malayalam","Mixed"].map((l)=>(
-<button
-key={l}
-onClick={()=>setLanguage(l)}
-className={language===l?"active":""}
->
-{l}
-</button>
-))}
+          {["English","Hindi","Malayalam","Mixed"].map((l)=>(
+            <button
+              key={l}
+              onClick={()=>setLanguage(l)}
+              className={language===l?"active":""}
+            >
+              {l}
+            </button>
+          ))}
 
-</div>
+        </div>
 
-<textarea
-value={text}
-onChange={(e)=>setText(e.target.value)}
-placeholder="Type your comment..."
-/>
+        <textarea
+          value={text}
+          onChange={(e)=>setText(e.target.value)}
+          placeholder="Type your comment..."
+        />
 
-<button onClick={analyzeCoach}>
-Analyze Behaviour
-</button>
+        <button onClick={analyzeCoach}>
+          Analyze Behaviour
+        </button>
 
-{behaviour && (
+        {behaviour && (
 
-<div className="coach-result">
+          <div className="coach-result">
 
-<p><b>Behaviour:</b> {behaviour}</p>
+            <p><b>Behaviour:</b> {behaviour}</p>
 
-<p><b>Suggestion:</b> {suggestion}</p>
+            <p><b>Suggestion:</b> {suggestion}</p>
 
-</div>
+          </div>
 
-)}
+        )}
 
-</div>
+      </div>
 
-</div>
+    </div>
 
-)
-
+  );
 }

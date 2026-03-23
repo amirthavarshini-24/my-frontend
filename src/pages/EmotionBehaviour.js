@@ -1,83 +1,94 @@
-import { useState } from "react"
-import "./Emotion.css"
+import { useState } from "react";
+import "./Emotion.css";
 
 export default function Emotion(){
 
-const [text,setText] = useState("")
-const [language,setLanguage] = useState("English")
-const [emotion,setEmotion] = useState("")
+  const [text,setText] = useState("");
+  const [language,setLanguage] = useState("English");
+  const [emotion,setEmotion] = useState("");
 
-const analyzeEmotion = async () => {
+  const analyzeEmotion = async () => {
 
-if(!text.trim()) return
+    if(!text.trim()) return;
 
-const response = await fetch("https://my-backend-h18l.onrender.com/emotion", {
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-text:text,
-language:language
-})
-})
+    try {
 
-const data = await response.json()
+      const response = await fetch("https://my-backend-h18l.onrender.com/emotion", {
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          text:text,
+          language:language
+        })
+      });
 
-setEmotion(data.emotion)
+      if(!response.ok){
+        throw new Error("Server error");
+      }
 
-}
+      const data = await response.json();
 
-return(
+      console.log("Emotion API:", data);
 
-<div className="emotion-page">
+      setEmotion(data.emotion || "No result");
 
-<div className="emotion-card">
+    } catch(err){
+      console.error(err);
+      setEmotion("⚠ Server Error (Try again)");
+    }
+  };
 
-<h1>Emotion Analysis</h1>
+  return(
 
-<p>Detect emotional tone in comments</p>
+    <div className="emotion-page">
 
-<div className="lang-tabs">
+      <div className="emotion-card">
 
-{["English","Hindi","Malayalam","Mixed"].map((l)=>(
-<button
-key={l}
-onClick={()=>setLanguage(l)}
-className={language===l?"active":""}
->
-{l}
-</button>
-))}
+        <h1>Emotion Analysis</h1>
 
-</div>
+        <p>Detect emotional tone in comments</p>
 
-<textarea
-value={text}
-onChange={(e)=>setText(e.target.value)}
-placeholder="Type your comment..."
-/>
+        <div className="lang-tabs">
 
-<button onClick={analyzeEmotion}>
-Analyze Emotion
-</button>
+          {["English","Hindi","Malayalam","Mixed"].map((l)=>(
+            <button
+              key={l}
+              onClick={()=>setLanguage(l)}
+              className={language===l?"active":""}
+            >
+              {l}
+            </button>
+          ))}
 
-{emotion && (
+        </div>
 
-<div className="emotion-result">
+        <textarea
+          value={text}
+          onChange={(e)=>setText(e.target.value)}
+          placeholder="Type your comment..."
+        />
 
-<h3>Detected Emotion</h3>
+        <button onClick={analyzeEmotion}>
+          Analyze Emotion
+        </button>
 
-<p>{emotion}</p>
+        {emotion && (
 
-</div>
+          <div className="emotion-result">
 
-)}
+            <h3>Detected Emotion</h3>
 
-</div>
+            <p>{emotion}</p>
 
-</div>
+          </div>
 
-)
+        )}
 
+      </div>
+
+    </div>
+
+  );
 }

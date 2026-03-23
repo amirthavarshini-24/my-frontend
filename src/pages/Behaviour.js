@@ -1,85 +1,96 @@
-import { useState } from "react"
-import "./Behaviour.css"
+import { useState } from "react";
+import "./Behaviour.css";
 
 export default function Behaviour(){
 
-const [text,setText] = useState("")
-const [language,setLanguage] = useState("English")
-const [behaviour,setBehaviour] = useState("")
+  const [text,setText] = useState("");
+  const [language,setLanguage] = useState("English");
+  const [behaviour,setBehaviour] = useState("");
 
-const analyzeBehaviour = async () => {
+  const analyzeBehaviour = async () => {
 
-if(!text.trim()) return
+    if(!text.trim()) return;
 
-const response = await fetch("https://my-backend-h18l.onrender.com/behaviour", {
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-text:text,
-language:language
-})
-})
+    try {
 
-const data = await response.json()
+      const response = await fetch("https://my-backend-h18l.onrender.com/behaviour", {
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          text:text,
+          language:language
+        })
+      });
 
-setBehaviour(data.behaviour)
+      if(!response.ok){
+        throw new Error("Server error");
+      }
 
-}
+      const data = await response.json();
 
-return(
+      console.log("Behaviour API:", data);
 
-<div className="behaviour-page">
+      setBehaviour(data.behaviour || "No result");
 
-<div className="behaviour-card">
+    } catch(err){
+      console.error(err);
+      setBehaviour("⚠ Server Error (Try again)");
+    }
+  };
 
-<h1>Behaviour Analysis</h1>
+  return(
 
-<p>Detect behavioural patterns</p>
+    <div className="behaviour-page">
 
-<div className="lang-tabs">
+      <div className="behaviour-card">
 
-{["English","Hindi","Malayalam","Mixed"].map((l)=>(
-<button
-key={l}
-onClick={()=>setLanguage(l)}
-className={language===l?"active":""}
->
-{l}
-</button>
-))}
+        <h1>Behaviour Analysis</h1>
 
-</div>
+        <p>Detect behavioural patterns</p>
 
-<textarea
-value={text}
-onChange={(e)=>setText(e.target.value)}
-placeholder="Type your comment..."
-/>
+        <div className="lang-tabs">
 
-<button onClick={analyzeBehaviour}>
-Analyze Behaviour
-</button>
+          {["English","Hindi","Malayalam","Mixed"].map((l)=>(
+            <button
+              key={l}
+              onClick={()=>setLanguage(l)}
+              className={language===l?"active":""}
+            >
+              {l}
+            </button>
+          ))}
 
-{behaviour && (
+        </div>
 
-<div className="result-container">
+        <textarea
+          value={text}
+          onChange={(e)=>setText(e.target.value)}
+          placeholder="Type your comment..."
+        />
 
-<h3>Behaviour</h3>
+        <button onClick={analyzeBehaviour}>
+          Analyze Behaviour
+        </button>
 
-<span className="result-badge">
-{behaviour}
-</span>
+        {behaviour && (
 
-</div>
+          <div className="result-container">
 
-)}
+            <h3>Behaviour</h3>
 
-</div>
+            <span className="result-badge">
+              {behaviour}
+            </span>
 
-</div>
+          </div>
 
-)
+        )}
 
+      </div>
+
+    </div>
+
+  );
 }
