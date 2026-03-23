@@ -1,0 +1,131 @@
+/* Page Background */
+
+.home-page{
+min-height:100vh;
+background:linear-gradient(135deg,#1e3a8a,#312e81,#4c1d95);
+font-family:sans-serif;
+}
+
+
+/* NAVBAR */
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:25px 60px;
+color:white;
+}
+
+.logo{
+font-size:24px;
+font-weight:bold;
+}
+
+
+/* Nav Links */
+
+.nav-links{
+display:flex;
+gap:30px;
+}
+
+.nav-link{
+color:white;
+text-decoration:none;
+font-size:15px;
+font-weight:500;
+position:relative;
+transition:all 0.3s ease;
+}
+
+/* Hover highlight */
+
+.nav-link:hover{
+color:#60a5fa;
+transform:scale(1.05);
+}
+
+
+/* underline animation */
+
+.nav-link::after{
+content:"";
+position:absolute;
+left:0;
+bottom:-4px;
+width:0%;
+height:2px;
+background:#60a5fa;
+transition:width 0.3s ease;
+}
+
+.nav-link:hover::after{
+width:100%;
+}
+
+
+/* HERO SECTION */
+
+.hero{
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+margin-top:120px;
+padding:0 20px;
+color:white;
+}
+
+.hero h1{
+font-size:48px;
+font-weight:bold;
+margin-bottom:20px;
+max-width:900px;
+}
+
+.hero p{
+font-size:18px;
+color:#d1d5db;
+max-width:650px;
+margin-bottom:40px;
+}
+
+
+/* Buttons */
+
+.hero-buttons{
+display:flex;
+gap:20px;
+}
+
+.start-btn{
+padding:12px 28px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.start-btn:hover{
+background:#1d4ed8;
+}
+
+
+.dashboard-btn{
+padding:12px 28px;
+border:1px solid white;
+background:transparent;
+color:white;
+border-radius:10px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.dashboard-btn:hover{
+background:white;
+color:black;
+}

@@ -1,0 +1,94 @@
+.emotion-page{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#4c1d95,#312e81,#1e3a8a);
+font-family:sans-serif;
+}
+
+.emotion-card{
+width:650px;
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(14px);
+padding:40px;
+border-radius:25px;
+text-align:center;
+color:white;
+box-shadow:0 20px 40px rgba(0,0,0,0.4);
+border:1px solid rgba(255,255,255,0.2);
+}
+
+.emotion-card h1{
+font-size:36px;
+margin-bottom:10px;
+}
+
+.emotion-card p{
+color:#ddd;
+margin-bottom:20px;
+}
+
+.lang-tabs{
+display:flex;
+justify-content:center;
+gap:12px;
+margin-bottom:20px;
+}
+
+.lang-tabs button{
+padding:8px 18px;
+border:none;
+border-radius:20px;
+background:#444;
+color:white;
+cursor:pointer;
+font-size:14px;
+transition:0.3s;
+}
+
+.lang-tabs button.active{
+background:#3b82f6;
+}
+
+.emotion-card textarea{
+width:100%;
+height:130px;
+padding:15px;
+border-radius:10px;
+border:none;
+outline:none;
+resize:none;
+font-size:15px;
+
+background:white;
+color:black;
+}
+
+.emotion-card textarea::placeholder{
+color:#555;
+}
+
+button{
+margin-top:15px;
+width:100%;
+padding:12px;
+border:none;
+border-radius:12px;
+font-size:16px;
+cursor:pointer;
+background:linear-gradient(to right,#00c6ff,#0072ff);
+color:white;
+transition:0.2s;
+}
+
+button:hover{
+transform:scale(1.02);
+}
+
+.emotion-result{
+margin-top:20px;
+background:rgba(255,255,255,0.15);
+padding:15px;
+border-radius:12px;
+}
