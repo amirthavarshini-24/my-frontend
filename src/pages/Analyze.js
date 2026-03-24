@@ -13,7 +13,7 @@ export default function Analyze() {
 
     try {
 
-      const response = await fetch("https://my-backend-h18l.onrender.com/docs", {
+      const response = await fetch("https://my-backend-h18l.onrender.com/analyze", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
