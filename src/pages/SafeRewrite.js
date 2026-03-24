@@ -1,97 +1,97 @@
-import { useState } from "react";
-import "./SafeRewrite.css";
+import { useState } from "react"
+import "./SafeRewrite.css"
 
 export default function SafeRewrite(){
 
-  const [text,setText] = useState("");
-  const [language,setLanguage] = useState("English");
-  const [rewrite,setRewrite] = useState("");
+const [text,setText] = useState("")
+const [language,setLanguage] = useState("English")
+const [rewrite,setRewrite] = useState("")
 
-  const rewriteComment = async () => {
+const rewriteComment = async () => {
 
-    if(!text.trim()) return;
+if(!text.trim()) return
 
-    try{
+try{
 
-      const response = await fetch("https://my-backend-h18l.onrender.com/safe-rewrite", {
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-          text:text,
-          language:language   // 🔥 IMPORTANT ADD
-        })
-      });
+const response = await fetch("https://my-backend-h18l.onrender.com/docs",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+text:text
+})
+})
 
-      if(!response.ok){
-        throw new Error("Server error");
-      }
+if(!response.ok){
+throw new Error("Server error")
+}
 
-      const data = await response.json();
+const data = await response.json()
 
-      console.log("Rewrite API:", data);
+setRewrite(data.safe_rewrite || "")
 
-      setRewrite(data.safe_rewrite || "No result");
+}
 
-    }
-    catch(error){
-      console.error("Error:",error);
-      setRewrite("⚠ Server Error (Try again)");
-    }
+catch(error){
 
-  };
+console.error("Error:",error)
+alert("Backend connection failed")
 
-  return(
+}
 
-    <div className="rewrite-page">
+}
 
-      <div className="rewrite-card">
+return(
 
-        <h1>Safe Rewrite</h1>
+<div className="rewrite-page">
 
-        <p>Convert toxic comment into safe message</p>
+<div className="rewrite-card">
 
-        <div className="lang-tabs">
+<h1>Safe Rewrite</h1>
 
-          {["English","Hindi","Malayalam","Mixed"].map((l)=>(
-            <button
-              key={l}
-              onClick={()=>setLanguage(l)}
-              className={language===l?"active":""}
-            >
-              {l}
-            </button>
-          ))}
+<p>Convert toxic comment into safe message</p>
 
-        </div>
+<div className="lang-tabs">
 
-        <textarea
-          value={text}
-          onChange={(e)=>setText(e.target.value)}
-          placeholder="Type your comment..."
-        />
+{["English","Hindi","Malayalam","Mixed"].map((l)=>(
+<button
+key={l}
+onClick={()=>setLanguage(l)}
+className={language===l?"active":""}
+>
+{l}
+</button>
+))}
 
-        <button onClick={rewriteComment}>
-          Rewrite Comment
-        </button>
+</div>
 
-        {rewrite && (
+<textarea
+value={text}
+onChange={(e)=>setText(e.target.value)}
+placeholder="Type your comment..."
+/>
 
-          <div className="rewrite-result">
+<button onClick={rewriteComment}>
+Rewrite Comment
+</button>
 
-            <h3>Rewritten Comment</h3>
+{rewrite && (
 
-            <p>{rewrite}</p>
+<div className="rewrite-result">
 
-          </div>
+<h3>Rewritten Comment</h3>
 
-        )}
+<p>{rewrite}</p>
 
-      </div>
+</div>
 
-    </div>
+)}
 
-  );
-}                                                                                       
+</div>
 
+</div>
+
+)
+
+}
