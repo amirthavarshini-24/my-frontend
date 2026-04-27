@@ -19,7 +19,7 @@ non_toxic:0
 
 useEffect(()=>{
 
-fetch("https://my-backend-h18l.onrender.com/docs")
+fetch("https://my-backend-h18l.onrender.com/stats")
 .then(res=>res.json())
 .then(data=>{
 setStats(data)

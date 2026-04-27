@@ -24,7 +24,14 @@ export default function Analyze() {
         }),
       });
 
-      const data = await response.json();
+      const textData = await response.text();
+console.log("RAW RESPONSE:", textData);
+
+if (!response.ok) {
+  throw new Error("Server error");
+}
+
+const data = JSON.parse(textData);
 
       console.log("Backend Response:", data);
 

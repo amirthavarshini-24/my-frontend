@@ -11,7 +11,7 @@ const analyzeBehaviour = async () => {
 
 if(!text.trim()) return
 
-const response = await fetch("https://my-backend-h18l.onrender.com/docs",{
+const response = await fetch("https://my-backend-h18l.onrender.com/behaviour", {
 method:"POST",
 headers:{
 "Content-Type":"application/json"
